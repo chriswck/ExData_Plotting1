@@ -1,0 +1,10 @@
+vars <- read.table("household_power_consumption.txt", na.strings = "?", sep=";", header = TRUE, nrows = 1)
+power <- read.table("household_power_consumption.txt", na.strings = "?", sep=";", header = FALSE, skip=66637, nrow=2881)
+colnames(power) <- colnames(vars)
+library(lubridate)
+power$Date_Time <- paste(power$Date, power$Time, sep="_")
+power$Date_Time <- dmy_hms(power$Date_Time) 
+
+plot(power$Date_Time, power$Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)")
+dev.copy(png, file="plot2.png")
+dev.off()
